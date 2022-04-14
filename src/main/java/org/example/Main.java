@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,7 +20,8 @@ public class Main {
         Set<String> faculties = findAllFaculties(students);
         printCollection(faculties);
         // find all students by faculties
-        Map<String, List<Student>> map = findAllStudentsByFaculties(students);
+//        Map<String, List<Student>> map = findAllStudentsByFaculties(students);
+        Map<String, List<Student>> map = findAllStudentsByFacultiesStream(students);
         printMap(map);
     }
 
@@ -30,6 +32,10 @@ public class Main {
                 System.out.println("    " + student);
             }
         }
+    }
+
+    private Map<String, List<Student>> findAllStudentsByFacultiesStream(List<Student> students) {
+        return students.stream().collect(Collectors.groupingBy(Student::getFaculty));
     }
 
     private Map<String, List<Student>> findAllStudentsByFaculties(List<Student> students) {
@@ -43,6 +49,10 @@ public class Main {
             }
         }
         return result;
+    }
+
+    private Set<String> findAllFaculties2(List<Student> students) {
+        return students.stream().map(Student::getFaculty).collect(Collectors.toSet());
     }
 
     private Set<String> findAllFaculties(List<Student> students) {
